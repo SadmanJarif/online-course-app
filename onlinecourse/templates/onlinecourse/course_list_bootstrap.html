@@ -1,0 +1,26 @@
+{% extends 'onlinecourse/base.html' %}
+{% block title %}Course List{% endblock %}
+{% block content %}
+<h2>Popular courses</h2>
+{% if course_list %}
+<div class="card-deck">
+    {% for course in course_list %}
+    <div class="card" style="width: 36rem;">
+        {% if course.image %}
+        <img class="card-img-left" src="{{ MEDIA_URL }}/{{ course.image }}" width="240px" height="240px" alt="Course image">
+        {% endif %}
+        <div class="card-body bg-light">
+            <h5 class="card-title">{{ course.name }}</h5>
+            <p class="card-text">{{ course.description }}</p>
+            <p class="card-text">Total enrollment: {{ course.total_enrollment }}</p>
+            <form action="{% url 'onlinecourse:course_details' course.id %}" method="get">
+                <input class="btn btn-primary" type="submit" value="Enroll">
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No courses are available.</p>
+{% endif %}
+{% endblock %}
