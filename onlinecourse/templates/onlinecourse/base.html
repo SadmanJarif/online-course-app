@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Online Course{% endblock %}</title>
+    <!-- Bootstrap 4.3.1 vendored locally (onlinecourse/static/onlinecourse/)
+         so pages render styled even without CDN/internet access. -->
+    <link rel="stylesheet" href="{% static 'onlinecourse/css/bootstrap.min.css' %}">
+    <script src="{% static 'onlinecourse/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'onlinecourse/js/popper.min.js' %}"></script>
+    <script src="{% static 'onlinecourse/js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'onlinecourse:course_list' %}">Online Course</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li><a class="btn btn-link" href="#">{{ user.first_name }} ({{ user.username }})</a></li>
+            <li><a class="btn btn-link" href="{% url 'admin:index' %}">Admin</a></li>
+            {% else %}
+            <li>
+                <form class="form-inline" action="{% url 'admin:login' %}" method="get">
+                    <div class="input-group">
+                        <a class="btn btn-primary" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+                        <a class="btn btn-primary" href="{% url 'admin:login' %}?next=/">Login</a>
+                    </div>
+                </form>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
